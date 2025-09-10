@@ -8,10 +8,6 @@ plugins:
     out: .
     opt: module=github.com/rohanchauhan02/proto-def
 
-  # Python (messages only)
-  - name: python
-    out: .
-
   # Python (services)
   - name: grpc-python
     out: .
