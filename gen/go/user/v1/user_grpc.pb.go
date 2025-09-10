@@ -19,20 +19,33 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_CreateUser_FullMethodName = "/proto.user.v1.UserService/CreateUser"
-	UserService_GetUser_FullMethodName    = "/proto.user.v1.UserService/GetUser"
-	UserService_ListUsers_FullMethodName  = "/proto.user.v1.UserService/ListUsers"
+	UserService_CreateUser_FullMethodName         = "/proto.user.v1.UserService/CreateUser"
+	UserService_GetUser_FullMethodName            = "/proto.user.v1.UserService/GetUser"
+	UserService_ListUsers_FullMethodName          = "/proto.user.v1.UserService/ListUsers"
+	UserService_StreamUserUpdates_FullMethodName  = "/proto.user.v1.UserService/StreamUserUpdates"
+	UserService_BulkCreateUsers_FullMethodName    = "/proto.user.v1.UserService/BulkCreateUsers"
+	UserService_ChatWithUser_FullMethodName       = "/proto.user.v1.UserService/ChatWithUser"
+	UserService_ProcessUserActions_FullMethodName = "/proto.user.v1.UserService/ProcessUserActions"
 )
 
 // UserServiceClient is the client API for UserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// User service definition
+// User service definition with streaming
 type UserServiceClient interface {
+	// Unary RPC (existing)
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error)
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error)
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
+	// Server Streaming RPC
+	StreamUserUpdates(ctx context.Context, in *StreamUserUpdatesRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[UserUpdate], error)
+	// Client Streaming RPC
+	BulkCreateUsers(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[CreateUserRequest, BulkCreateUsersResponse], error)
+	// Bidirectional Streaming RPC
+	ChatWithUser(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[UserMessage, UserMessage], error)
+	// Bidirectional Streaming with multiple responses per request
+	ProcessUserActions(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[UserAction, ActionResult], error)
 }
 
 type userServiceClient struct {
@@ -73,15 +86,82 @@ func (c *userServiceClient) ListUsers(ctx context.Context, in *ListUsersRequest,
 	return out, nil
 }
 
+func (c *userServiceClient) StreamUserUpdates(ctx context.Context, in *StreamUserUpdatesRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[UserUpdate], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[0], UserService_StreamUserUpdates_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[StreamUserUpdatesRequest, UserUpdate]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type UserService_StreamUserUpdatesClient = grpc.ServerStreamingClient[UserUpdate]
+
+func (c *userServiceClient) BulkCreateUsers(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[CreateUserRequest, BulkCreateUsersResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[1], UserService_BulkCreateUsers_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[CreateUserRequest, BulkCreateUsersResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type UserService_BulkCreateUsersClient = grpc.ClientStreamingClient[CreateUserRequest, BulkCreateUsersResponse]
+
+func (c *userServiceClient) ChatWithUser(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[UserMessage, UserMessage], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[2], UserService_ChatWithUser_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[UserMessage, UserMessage]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type UserService_ChatWithUserClient = grpc.BidiStreamingClient[UserMessage, UserMessage]
+
+func (c *userServiceClient) ProcessUserActions(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[UserAction, ActionResult], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[3], UserService_ProcessUserActions_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[UserAction, ActionResult]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type UserService_ProcessUserActionsClient = grpc.BidiStreamingClient[UserAction, ActionResult]
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
 //
-// User service definition
+// User service definition with streaming
 type UserServiceServer interface {
+	// Unary RPC (existing)
 	CreateUser(context.Context, *CreateUserRequest) (*User, error)
 	GetUser(context.Context, *GetUserRequest) (*User, error)
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
+	// Server Streaming RPC
+	StreamUserUpdates(*StreamUserUpdatesRequest, grpc.ServerStreamingServer[UserUpdate]) error
+	// Client Streaming RPC
+	BulkCreateUsers(grpc.ClientStreamingServer[CreateUserRequest, BulkCreateUsersResponse]) error
+	// Bidirectional Streaming RPC
+	ChatWithUser(grpc.BidiStreamingServer[UserMessage, UserMessage]) error
+	// Bidirectional Streaming with multiple responses per request
+	ProcessUserActions(grpc.BidiStreamingServer[UserAction, ActionResult]) error
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -100,6 +180,18 @@ func (UnimplementedUserServiceServer) GetUser(context.Context, *GetUserRequest) 
 }
 func (UnimplementedUserServiceServer) ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
+}
+func (UnimplementedUserServiceServer) StreamUserUpdates(*StreamUserUpdatesRequest, grpc.ServerStreamingServer[UserUpdate]) error {
+	return status.Errorf(codes.Unimplemented, "method StreamUserUpdates not implemented")
+}
+func (UnimplementedUserServiceServer) BulkCreateUsers(grpc.ClientStreamingServer[CreateUserRequest, BulkCreateUsersResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method BulkCreateUsers not implemented")
+}
+func (UnimplementedUserServiceServer) ChatWithUser(grpc.BidiStreamingServer[UserMessage, UserMessage]) error {
+	return status.Errorf(codes.Unimplemented, "method ChatWithUser not implemented")
+}
+func (UnimplementedUserServiceServer) ProcessUserActions(grpc.BidiStreamingServer[UserAction, ActionResult]) error {
+	return status.Errorf(codes.Unimplemented, "method ProcessUserActions not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -176,6 +268,38 @@ func _UserService_ListUsers_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_StreamUserUpdates_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(StreamUserUpdatesRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(UserServiceServer).StreamUserUpdates(m, &grpc.GenericServerStream[StreamUserUpdatesRequest, UserUpdate]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type UserService_StreamUserUpdatesServer = grpc.ServerStreamingServer[UserUpdate]
+
+func _UserService_BulkCreateUsers_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(UserServiceServer).BulkCreateUsers(&grpc.GenericServerStream[CreateUserRequest, BulkCreateUsersResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type UserService_BulkCreateUsersServer = grpc.ClientStreamingServer[CreateUserRequest, BulkCreateUsersResponse]
+
+func _UserService_ChatWithUser_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(UserServiceServer).ChatWithUser(&grpc.GenericServerStream[UserMessage, UserMessage]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type UserService_ChatWithUserServer = grpc.BidiStreamingServer[UserMessage, UserMessage]
+
+func _UserService_ProcessUserActions_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(UserServiceServer).ProcessUserActions(&grpc.GenericServerStream[UserAction, ActionResult]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type UserService_ProcessUserActionsServer = grpc.BidiStreamingServer[UserAction, ActionResult]
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -196,6 +320,29 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_ListUsers_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "StreamUserUpdates",
+			Handler:       _UserService_StreamUserUpdates_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "BulkCreateUsers",
+			Handler:       _UserService_BulkCreateUsers_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "ChatWithUser",
+			Handler:       _UserService_ChatWithUser_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "ProcessUserActions",
+			Handler:       _UserService_ProcessUserActions_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "proto/user/v1/user.proto",
 }

@@ -12,9 +12,10 @@ from google.protobuf.internal import builder as _builder
 _sym_db = _symbol_database.Default()
 
 
+from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12user/v1/user.proto\x12\rproto.user.v1\"\xe9\x02\n\x04User\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05\x65mail\x18\x03 \x01(\t\x12\x0b\n\x03\x61ge\x18\x04 \x01(\x05\x12\x11\n\tis_active\x18\x05 \x01(\x08\x12\r\n\x05roles\x18\x06 \x03(\t\x12,\n\x07\x61\x64\x64ress\x18\x07 \x01(\x0b\x32\x1b.proto.user.v1.User.Address\x12\x33\n\x08metadata\x18\x08 \x03(\x0b\x32!.proto.user.v1.User.MetadataEntry\x12)\n\x06status\x18\t \x01(\x0e\x32\x19.proto.user.v1.UserStatus\x1aJ\n\x07\x41\x64\x64ress\x12\x0e\n\x06street\x18\x01 \x01(\t\x12\x0c\n\x04\x63ity\x18\x02 \x01(\t\x12\x10\n\x08zip_code\x18\x03 \x01(\t\x12\x0f\n\x07\x63ountry\x18\x04 \x01(\t\x1a/\n\rMetadataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"z\n\x11\x43reateUserRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\x0b\n\x03\x61ge\x18\x03 \x01(\x05\x12\r\n\x05roles\x18\x04 \x03(\t\x12,\n\x07\x61\x64\x64ress\x18\x05 \x01(\x0b\x32\x1b.proto.user.v1.User.Address\"\x1c\n\x0eGetUserRequest\x12\n\n\x02id\x18\x01 \x01(\t\"e\n\x10ListUsersRequest\x12\x0c\n\x04page\x18\x01 \x01(\x05\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x30\n\rstatus_filter\x18\x03 \x01(\x0e\x32\x19.proto.user.v1.UserStatus\"m\n\x11ListUsersResponse\x12\"\n\x05users\x18\x01 \x03(\x0b\x32\x13.proto.user.v1.User\x12\x13\n\x0btotal_count\x18\x02 \x01(\x05\x12\x0c\n\x04page\x18\x03 \x01(\x05\x12\x11\n\tpage_size\x18\x04 \x01(\x05*v\n\nUserStatus\x12\x1b\n\x17USER_STATUS_UNSPECIFIED\x10\x00\x12\x16\n\x12USER_STATUS_ACTIVE\x10\x01\x12\x18\n\x14USER_STATUS_INACTIVE\x10\x02\x12\x19\n\x15USER_STATUS_SUSPENDED\x10\x03\x32\xe1\x01\n\x0bUserService\x12\x43\n\nCreateUser\x12 .proto.user.v1.CreateUserRequest\x1a\x13.proto.user.v1.User\x12=\n\x07GetUser\x12\x1d.proto.user.v1.GetUserRequest\x1a\x13.proto.user.v1.User\x12N\n\tListUsers\x12\x1f.proto.user.v1.ListUsersRequest\x1a .proto.user.v1.ListUsersResponseB;Z9github.com/rohanchauhan02/proto-def/gen/go/user/v1;userv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12user/v1/user.proto\x12\rproto.user.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe9\x02\n\x04User\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05\x65mail\x18\x03 \x01(\t\x12\x0b\n\x03\x61ge\x18\x04 \x01(\x05\x12\x11\n\tis_active\x18\x05 \x01(\x08\x12\r\n\x05roles\x18\x06 \x03(\t\x12,\n\x07\x61\x64\x64ress\x18\x07 \x01(\x0b\x32\x1b.proto.user.v1.User.Address\x12\x33\n\x08metadata\x18\x08 \x03(\x0b\x32!.proto.user.v1.User.MetadataEntry\x12)\n\x06status\x18\t \x01(\x0e\x32\x19.proto.user.v1.UserStatus\x1aJ\n\x07\x41\x64\x64ress\x12\x0e\n\x06street\x18\x01 \x01(\t\x12\x0c\n\x04\x63ity\x18\x02 \x01(\t\x12\x10\n\x08zip_code\x18\x03 \x01(\t\x12\x0f\n\x07\x63ountry\x18\x04 \x01(\t\x1a/\n\rMetadataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"z\n\x11\x43reateUserRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\x0b\n\x03\x61ge\x18\x03 \x01(\x05\x12\r\n\x05roles\x18\x04 \x03(\t\x12,\n\x07\x61\x64\x64ress\x18\x05 \x01(\x0b\x32\x1b.proto.user.v1.User.Address\"\x1c\n\x0eGetUserRequest\x12\n\n\x02id\x18\x01 \x01(\t\"e\n\x10ListUsersRequest\x12\x0c\n\x04page\x18\x01 \x01(\x05\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x30\n\rstatus_filter\x18\x03 \x01(\x0e\x32\x19.proto.user.v1.UserStatus\"m\n\x11ListUsersResponse\x12\"\n\x05users\x18\x01 \x03(\x0b\x32\x13.proto.user.v1.User\x12\x13\n\x0btotal_count\x18\x02 \x01(\x05\x12\x0c\n\x04page\x18\x03 \x01(\x05\x12\x11\n\tpage_size\x18\x04 \x01(\x05\"\\\n\x18StreamUserUpdatesRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12/\n\x0cupdate_types\x18\x02 \x03(\x0e\x32\x19.proto.user.v1.UpdateType\"\xbf\x02\n\nUserUpdate\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12.\n\x0bupdate_type\x18\x02 \x01(\x0e\x32\x19.proto.user.v1.UpdateType\x12-\n\ttimestamp\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12:\n\x0eprofile_update\x18\x04 \x01(\x0b\x32 .proto.user.v1.UserProfileUpdateH\x00\x12\x38\n\rstatus_update\x18\x05 \x01(\x0b\x32\x1f.proto.user.v1.UserStatusUpdateH\x00\x12<\n\x0fmetadata_update\x18\x06 \x01(\x0b\x32!.proto.user.v1.UserMetadataUpdateH\x00\x42\r\n\x0bupdate_data\"=\n\x11UserProfileUpdate\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\x0b\n\x03\x61ge\x18\x03 \x01(\x05\"Q\n\x10UserStatusUpdate\x12-\n\nnew_status\x18\x01 \x01(\x0e\x32\x19.proto.user.v1.UserStatus\x12\x0e\n\x06reason\x18\x02 \x01(\t\"\xb7\x01\n\x12UserMetadataUpdate\x12L\n\x0e\x61\x64\x64\x65\x64_metadata\x18\x01 \x03(\x0b\x32\x34.proto.user.v1.UserMetadataUpdate.AddedMetadataEntry\x12\x1d\n\x15removed_metadata_keys\x18\x02 \x03(\t\x1a\x34\n\x12\x41\x64\x64\x65\x64MetadataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xa5\x01\n\x17\x42ulkCreateUsersResponse\x12*\n\rcreated_users\x18\x01 \x03(\x0b\x32\x13.proto.user.v1.User\x12\x15\n\rsuccess_count\x18\x02 \x01(\x05\x12\x15\n\rfailure_count\x18\x03 \x01(\x05\x12\x30\n\x06\x65rrors\x18\x04 \x03(\x0b\x32 .proto.user.v1.UserCreationError\"s\n\x11UserCreationError\x12\r\n\x05index\x18\x01 \x01(\x05\x12\x15\n\rerror_message\x18\x02 \x01(\t\x12\x38\n\x0e\x66\x61iled_request\x18\x03 \x01(\x0b\x32 .proto.user.v1.CreateUserRequest\"\xbf\x01\n\x0bUserMessage\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x12\n\nmessage_id\x18\x02 \x01(\t\x12-\n\ttimestamp\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x0e\n\x04text\x18\x04 \x01(\tH\x00\x12\x14\n\nattachment\x18\x05 \x01(\x0cH\x00\x12+\n\x06\x61\x63tion\x18\x06 \x01(\x0b\x32\x19.proto.user.v1.UserActionH\x00\x42\t\n\x07\x63ontent\"\xba\x01\n\nUserAction\x12\x11\n\taction_id\x18\x01 \x01(\t\x12\'\n\x04type\x18\x02 \x01(\x0e\x32\x19.proto.user.v1.ActionType\x12=\n\nparameters\x18\x03 \x03(\x0b\x32).proto.user.v1.UserAction.ParametersEntry\x1a\x31\n\x0fParametersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"u\n\x0c\x41\x63tionResult\x12\x11\n\taction_id\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x0f\n\x07message\x18\x03 \x01(\t\x12\x30\n\x0c\x63ompleted_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp*v\n\nUserStatus\x12\x1b\n\x17USER_STATUS_UNSPECIFIED\x10\x00\x12\x16\n\x12USER_STATUS_ACTIVE\x10\x01\x12\x18\n\x14USER_STATUS_INACTIVE\x10\x02\x12\x19\n\x15USER_STATUS_SUSPENDED\x10\x03*\x89\x01\n\nUpdateType\x12\x1b\n\x17UPDATE_TYPE_UNSPECIFIED\x10\x00\x12\x17\n\x13UPDATE_TYPE_PROFILE\x10\x01\x12\x16\n\x12UPDATE_TYPE_STATUS\x10\x02\x12\x18\n\x14UPDATE_TYPE_METADATA\x10\x03\x12\x13\n\x0fUPDATE_TYPE_ALL\x10\x04*\xa7\x01\n\nActionType\x12\x1b\n\x17\x41\x43TION_TYPE_UNSPECIFIED\x10\x00\x12\x1e\n\x1a\x41\x43TION_TYPE_UPDATE_PROFILE\x10\x01\x12\x1d\n\x19\x41\x43TION_TYPE_CHANGE_STATUS\x10\x02\x12\x1c\n\x18\x41\x43TION_TYPE_ADD_METADATA\x10\x03\x12\x1f\n\x1b\x41\x43TION_TYPE_REMOVE_METADATA\x10\x04\x32\xb9\x04\n\x0bUserService\x12\x43\n\nCreateUser\x12 .proto.user.v1.CreateUserRequest\x1a\x13.proto.user.v1.User\x12=\n\x07GetUser\x12\x1d.proto.user.v1.GetUserRequest\x1a\x13.proto.user.v1.User\x12N\n\tListUsers\x12\x1f.proto.user.v1.ListUsersRequest\x1a .proto.user.v1.ListUsersResponse\x12Y\n\x11StreamUserUpdates\x12\'.proto.user.v1.StreamUserUpdatesRequest\x1a\x19.proto.user.v1.UserUpdate0\x01\x12]\n\x0f\x42ulkCreateUsers\x12 .proto.user.v1.CreateUserRequest\x1a&.proto.user.v1.BulkCreateUsersResponse(\x01\x12J\n\x0c\x43hatWithUser\x12\x1a.proto.user.v1.UserMessage\x1a\x1a.proto.user.v1.UserMessage(\x01\x30\x01\x12P\n\x12ProcessUserActions\x12\x19.proto.user.v1.UserAction\x1a\x1b.proto.user.v1.ActionResult(\x01\x30\x01\x42;Z9github.com/rohanchauhan02/proto-def/gen/go/user/v1;userv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -24,22 +25,54 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['DESCRIPTOR']._serialized_options = b'Z9github.com/rohanchauhan02/proto-def/gen/go/user/v1;userv1'
   _globals['_USER_METADATAENTRY']._options = None
   _globals['_USER_METADATAENTRY']._serialized_options = b'8\001'
-  _globals['_USERSTATUS']._serialized_start=769
-  _globals['_USERSTATUS']._serialized_end=887
-  _globals['_USER']._serialized_start=38
-  _globals['_USER']._serialized_end=399
-  _globals['_USER_ADDRESS']._serialized_start=276
-  _globals['_USER_ADDRESS']._serialized_end=350
-  _globals['_USER_METADATAENTRY']._serialized_start=352
-  _globals['_USER_METADATAENTRY']._serialized_end=399
-  _globals['_CREATEUSERREQUEST']._serialized_start=401
-  _globals['_CREATEUSERREQUEST']._serialized_end=523
-  _globals['_GETUSERREQUEST']._serialized_start=525
-  _globals['_GETUSERREQUEST']._serialized_end=553
-  _globals['_LISTUSERSREQUEST']._serialized_start=555
-  _globals['_LISTUSERSREQUEST']._serialized_end=656
-  _globals['_LISTUSERSRESPONSE']._serialized_start=658
-  _globals['_LISTUSERSRESPONSE']._serialized_end=767
-  _globals['_USERSERVICE']._serialized_start=890
-  _globals['_USERSERVICE']._serialized_end=1115
+  _globals['_USERMETADATAUPDATE_ADDEDMETADATAENTRY']._options = None
+  _globals['_USERMETADATAUPDATE_ADDEDMETADATAENTRY']._serialized_options = b'8\001'
+  _globals['_USERACTION_PARAMETERSENTRY']._options = None
+  _globals['_USERACTION_PARAMETERSENTRY']._serialized_options = b'8\001'
+  _globals['_USERSTATUS']._serialized_start=2337
+  _globals['_USERSTATUS']._serialized_end=2455
+  _globals['_UPDATETYPE']._serialized_start=2458
+  _globals['_UPDATETYPE']._serialized_end=2595
+  _globals['_ACTIONTYPE']._serialized_start=2598
+  _globals['_ACTIONTYPE']._serialized_end=2765
+  _globals['_USER']._serialized_start=71
+  _globals['_USER']._serialized_end=432
+  _globals['_USER_ADDRESS']._serialized_start=309
+  _globals['_USER_ADDRESS']._serialized_end=383
+  _globals['_USER_METADATAENTRY']._serialized_start=385
+  _globals['_USER_METADATAENTRY']._serialized_end=432
+  _globals['_CREATEUSERREQUEST']._serialized_start=434
+  _globals['_CREATEUSERREQUEST']._serialized_end=556
+  _globals['_GETUSERREQUEST']._serialized_start=558
+  _globals['_GETUSERREQUEST']._serialized_end=586
+  _globals['_LISTUSERSREQUEST']._serialized_start=588
+  _globals['_LISTUSERSREQUEST']._serialized_end=689
+  _globals['_LISTUSERSRESPONSE']._serialized_start=691
+  _globals['_LISTUSERSRESPONSE']._serialized_end=800
+  _globals['_STREAMUSERUPDATESREQUEST']._serialized_start=802
+  _globals['_STREAMUSERUPDATESREQUEST']._serialized_end=894
+  _globals['_USERUPDATE']._serialized_start=897
+  _globals['_USERUPDATE']._serialized_end=1216
+  _globals['_USERPROFILEUPDATE']._serialized_start=1218
+  _globals['_USERPROFILEUPDATE']._serialized_end=1279
+  _globals['_USERSTATUSUPDATE']._serialized_start=1281
+  _globals['_USERSTATUSUPDATE']._serialized_end=1362
+  _globals['_USERMETADATAUPDATE']._serialized_start=1365
+  _globals['_USERMETADATAUPDATE']._serialized_end=1548
+  _globals['_USERMETADATAUPDATE_ADDEDMETADATAENTRY']._serialized_start=1496
+  _globals['_USERMETADATAUPDATE_ADDEDMETADATAENTRY']._serialized_end=1548
+  _globals['_BULKCREATEUSERSRESPONSE']._serialized_start=1551
+  _globals['_BULKCREATEUSERSRESPONSE']._serialized_end=1716
+  _globals['_USERCREATIONERROR']._serialized_start=1718
+  _globals['_USERCREATIONERROR']._serialized_end=1833
+  _globals['_USERMESSAGE']._serialized_start=1836
+  _globals['_USERMESSAGE']._serialized_end=2027
+  _globals['_USERACTION']._serialized_start=2030
+  _globals['_USERACTION']._serialized_end=2216
+  _globals['_USERACTION_PARAMETERSENTRY']._serialized_start=2167
+  _globals['_USERACTION_PARAMETERSENTRY']._serialized_end=2216
+  _globals['_ACTIONRESULT']._serialized_start=2218
+  _globals['_ACTIONRESULT']._serialized_end=2335
+  _globals['_USERSERVICE']._serialized_start=2768
+  _globals['_USERSERVICE']._serialized_end=3337
 # @@protoc_insertion_point(module_scope)

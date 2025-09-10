@@ -6,7 +6,7 @@ from user.v1 import user_pb2 as user_dot_v1_dot_user__pb2
 
 
 class UserServiceStub(object):
-    """User service definition
+    """User service definition with streaming
     """
 
     def __init__(self, channel):
@@ -30,14 +30,35 @@ class UserServiceStub(object):
                 request_serializer=user_dot_v1_dot_user__pb2.ListUsersRequest.SerializeToString,
                 response_deserializer=user_dot_v1_dot_user__pb2.ListUsersResponse.FromString,
                 )
+        self.StreamUserUpdates = channel.unary_stream(
+                '/proto.user.v1.UserService/StreamUserUpdates',
+                request_serializer=user_dot_v1_dot_user__pb2.StreamUserUpdatesRequest.SerializeToString,
+                response_deserializer=user_dot_v1_dot_user__pb2.UserUpdate.FromString,
+                )
+        self.BulkCreateUsers = channel.stream_unary(
+                '/proto.user.v1.UserService/BulkCreateUsers',
+                request_serializer=user_dot_v1_dot_user__pb2.CreateUserRequest.SerializeToString,
+                response_deserializer=user_dot_v1_dot_user__pb2.BulkCreateUsersResponse.FromString,
+                )
+        self.ChatWithUser = channel.stream_stream(
+                '/proto.user.v1.UserService/ChatWithUser',
+                request_serializer=user_dot_v1_dot_user__pb2.UserMessage.SerializeToString,
+                response_deserializer=user_dot_v1_dot_user__pb2.UserMessage.FromString,
+                )
+        self.ProcessUserActions = channel.stream_stream(
+                '/proto.user.v1.UserService/ProcessUserActions',
+                request_serializer=user_dot_v1_dot_user__pb2.UserAction.SerializeToString,
+                response_deserializer=user_dot_v1_dot_user__pb2.ActionResult.FromString,
+                )
 
 
 class UserServiceServicer(object):
-    """User service definition
+    """User service definition with streaming
     """
 
     def CreateUser(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Unary RPC (existing)
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -50,6 +71,34 @@ class UserServiceServicer(object):
 
     def ListUsers(self, request, context):
         """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def StreamUserUpdates(self, request, context):
+        """Server Streaming RPC
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def BulkCreateUsers(self, request_iterator, context):
+        """Client Streaming RPC
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ChatWithUser(self, request_iterator, context):
+        """Bidirectional Streaming RPC
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ProcessUserActions(self, request_iterator, context):
+        """Bidirectional Streaming with multiple responses per request
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -72,6 +121,26 @@ def add_UserServiceServicer_to_server(servicer, server):
                     request_deserializer=user_dot_v1_dot_user__pb2.ListUsersRequest.FromString,
                     response_serializer=user_dot_v1_dot_user__pb2.ListUsersResponse.SerializeToString,
             ),
+            'StreamUserUpdates': grpc.unary_stream_rpc_method_handler(
+                    servicer.StreamUserUpdates,
+                    request_deserializer=user_dot_v1_dot_user__pb2.StreamUserUpdatesRequest.FromString,
+                    response_serializer=user_dot_v1_dot_user__pb2.UserUpdate.SerializeToString,
+            ),
+            'BulkCreateUsers': grpc.stream_unary_rpc_method_handler(
+                    servicer.BulkCreateUsers,
+                    request_deserializer=user_dot_v1_dot_user__pb2.CreateUserRequest.FromString,
+                    response_serializer=user_dot_v1_dot_user__pb2.BulkCreateUsersResponse.SerializeToString,
+            ),
+            'ChatWithUser': grpc.stream_stream_rpc_method_handler(
+                    servicer.ChatWithUser,
+                    request_deserializer=user_dot_v1_dot_user__pb2.UserMessage.FromString,
+                    response_serializer=user_dot_v1_dot_user__pb2.UserMessage.SerializeToString,
+            ),
+            'ProcessUserActions': grpc.stream_stream_rpc_method_handler(
+                    servicer.ProcessUserActions,
+                    request_deserializer=user_dot_v1_dot_user__pb2.UserAction.FromString,
+                    response_serializer=user_dot_v1_dot_user__pb2.ActionResult.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
             'proto.user.v1.UserService', rpc_method_handlers)
@@ -80,7 +149,7 @@ def add_UserServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class UserService(object):
-    """User service definition
+    """User service definition with streaming
     """
 
     @staticmethod
@@ -131,5 +200,73 @@ class UserService(object):
         return grpc.experimental.unary_unary(request, target, '/proto.user.v1.UserService/ListUsers',
             user_dot_v1_dot_user__pb2.ListUsersRequest.SerializeToString,
             user_dot_v1_dot_user__pb2.ListUsersResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def StreamUserUpdates(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/proto.user.v1.UserService/StreamUserUpdates',
+            user_dot_v1_dot_user__pb2.StreamUserUpdatesRequest.SerializeToString,
+            user_dot_v1_dot_user__pb2.UserUpdate.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def BulkCreateUsers(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/proto.user.v1.UserService/BulkCreateUsers',
+            user_dot_v1_dot_user__pb2.CreateUserRequest.SerializeToString,
+            user_dot_v1_dot_user__pb2.BulkCreateUsersResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ChatWithUser(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/proto.user.v1.UserService/ChatWithUser',
+            user_dot_v1_dot_user__pb2.UserMessage.SerializeToString,
+            user_dot_v1_dot_user__pb2.UserMessage.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ProcessUserActions(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/proto.user.v1.UserService/ProcessUserActions',
+            user_dot_v1_dot_user__pb2.UserAction.SerializeToString,
+            user_dot_v1_dot_user__pb2.ActionResult.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

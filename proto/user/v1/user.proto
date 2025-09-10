@@ -1,16 +1,32 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 package proto.user.v1;
 
 option go_package = "github.com/rohanchauhan02/proto-def/gen/go/user/v1;userv1";
 
-// User service definition
+// User service definition with streaming
 service UserService {
+  // Unary RPC (existing)
   rpc CreateUser (CreateUserRequest) returns (User);
   rpc GetUser (GetUserRequest) returns (User);
   rpc ListUsers (ListUsersRequest) returns (ListUsersResponse);
+
+  // Server Streaming RPC
+  rpc StreamUserUpdates (StreamUserUpdatesRequest) returns (stream UserUpdate);
+
+  // Client Streaming RPC
+  rpc BulkCreateUsers (stream CreateUserRequest) returns (BulkCreateUsersResponse);
+
+  // Bidirectional Streaming RPC
+  rpc ChatWithUser (stream UserMessage) returns (stream UserMessage);
+
+  // Bidirectional Streaming with multiple responses per request
+  rpc ProcessUserActions (stream UserAction) returns (stream ActionResult);
 }
 
+// Existing messages (unchanged)
 message User {
   string id = 1;
   string name = 2;
@@ -61,4 +77,90 @@ message ListUsersResponse {
   int32 total_count = 2;
   int32 page = 3;
   int32 page_size = 4;
+}
+
+// New messages for streaming
+message StreamUserUpdatesRequest {
+  string user_id = 1;
+  repeated UpdateType update_types = 2;
+}
+
+message UserUpdate {
+  string user_id = 1;
+  UpdateType update_type = 2;
+  google.protobuf.Timestamp timestamp = 3;
+  oneof update_data {
+    UserProfileUpdate profile_update = 4;
+    UserStatusUpdate status_update = 5;
+    UserMetadataUpdate metadata_update = 6;
+  }
+}
+
+enum UpdateType {
+  UPDATE_TYPE_UNSPECIFIED = 0;
+  UPDATE_TYPE_PROFILE = 1;
+  UPDATE_TYPE_STATUS = 2;
+  UPDATE_TYPE_METADATA = 3;
+  UPDATE_TYPE_ALL = 4;
+}
+
+message UserProfileUpdate {
+  string name = 1;
+  string email = 2;
+  int32 age = 3;
+}
+
+message UserStatusUpdate {
+  UserStatus new_status = 1;
+  string reason = 2;
+}
+
+message UserMetadataUpdate {
+  map<string, string> added_metadata = 1;
+  repeated string removed_metadata_keys = 2;
+}
+
+message BulkCreateUsersResponse {
+  repeated User created_users = 1;
+  int32 success_count = 2;
+  int32 failure_count = 3;
+  repeated UserCreationError errors = 4;
+}
+
+message UserCreationError {
+  int32 index = 1;
+  string error_message = 2;
+  CreateUserRequest failed_request = 3;
+}
+
+message UserMessage {
+  string user_id = 1;
+  string message_id = 2;
+  google.protobuf.Timestamp timestamp = 3;
+  oneof content {
+    string text = 4;
+    bytes attachment = 5;
+    UserAction action = 6;
+  }
+}
+
+message UserAction {
+  string action_id = 1;
+  ActionType type = 2;
+  map<string, string> parameters = 3;
+}
+
+enum ActionType {
+  ACTION_TYPE_UNSPECIFIED = 0;
+  ACTION_TYPE_UPDATE_PROFILE = 1;
+  ACTION_TYPE_CHANGE_STATUS = 2;
+  ACTION_TYPE_ADD_METADATA = 3;
+  ACTION_TYPE_REMOVE_METADATA = 4;
+}
+
+message ActionResult {
+  string action_id = 1;
+  bool success = 2;
+  string message = 3;
+  google.protobuf.Timestamp completed_at = 4;
 }
