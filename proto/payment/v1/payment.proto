@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package proto.payment.v1;
+
+option go_package = "github.com/rohanchauhan02/proto-def/gen/go/payment/v1;paymentv1";
+
+service PaymentService {
+  rpc CreateTransaction (CreateTransactionRequest) returns (CreateTransactionResponse);
+}
+
+message Payment {
+  string id = 1;
+  double amount = 2;
+  string currency = 3;
+  PaymentStatus status = 4;
+}
+
+message CreateTransactionRequest {
+  double amount = 1;
+  string currency = 2;
+  string user_id = 3;
+}
+
+message CreateTransactionResponse {
+  Payment payment = 1;
+}
+
+enum PaymentStatus {
+  PAYMENT_STATUS_UNSPECIFIED = 0;
+  PAYMENT_STATUS_PENDING = 1;
+  PAYMENT_STATUS_COMPLETED = 2;
+  PAYMENT_STATUS_FAILED = 3;
+}

@@ -1,7 +1,8 @@
 version: v1
+name: github.com/rohanchauhan02/proto-def
 breaking:
   use:
-    - FILE
+    - STANDARD
 lint:
   use:
-    - DEFAULT
+    - STANDARD

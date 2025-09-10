@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package proto.user.v1;
+
+option go_package = "github.com/rohanchauhan02/proto-def/gen/go/user/v1;userv1";
+
+// User service definition
+service UserService {
+  rpc CreateUser (CreateUserRequest) returns (User);
+  rpc GetUser (GetUserRequest) returns (User);
+  rpc ListUsers (ListUsersRequest) returns (ListUsersResponse);
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  int32 age = 4;
+  bool is_active = 5;
+  repeated string roles = 6;
+
+  message Address {
+    string street = 1;
+    string city = 2;
+    string zip_code = 3;
+    string country = 4;
+  }
+
+  Address address = 7;
+  map<string, string> metadata = 8;
+  UserStatus status = 9;
+}
+
+enum UserStatus {
+  USER_STATUS_UNSPECIFIED = 0;
+  USER_STATUS_ACTIVE = 1;
+  USER_STATUS_INACTIVE = 2;
+  USER_STATUS_SUSPENDED = 3;
+}
+
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+  int32 age = 3;
+  repeated string roles = 4;
+  User.Address address = 5;
+}
+
+message GetUserRequest {
+  string id = 1;
+}
+
+message ListUsersRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  UserStatus status_filter = 3;
+}
+
+message ListUsersResponse {
+  repeated User users = 1;
+  int32 total_count = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}

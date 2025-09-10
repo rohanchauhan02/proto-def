@@ -1,0 +1,7 @@
+#!/bin/bash
+mkdir -p gen/python
+python3 -W ignore::DeprecationWarning -m grpc_tools.protoc \
+  -I proto \
+  --python_out=gen/python \
+  --grpc_python_out=gen/python \
+  $(find proto -name "*.proto")

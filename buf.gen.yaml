@@ -1,8 +1,19 @@
 version: v1
 plugins:
+  # Go plugins
   - name: go
-    out: gen/go
-    opt: paths=source_relative
+    out: .
+    opt: module=github.com/rohanchauhan02/proto-def
   - name: go-grpc
-    out: gen/go
-    opt: paths=source_relative
+    out: .
+    opt: module=github.com/rohanchauhan02/proto-def
+
+  # Python (messages only)
+  - name: python
+    out: .
+
+  # Python (services)
+  - name: grpc-python
+    out: .
+    path: ./protoc-gen-grpc-python
+    strategy: all
